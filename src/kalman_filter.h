@@ -3,8 +3,13 @@
 #include "Eigen/Dense"
 
 class KalmanFilter {
-public:
+private:
+  /**
+   * Common process used in Update() and UpdateEKF() 
+   */
+  void CommonUpdate(const Eigen::VectorXd &y, const Eigen::VectorXd &z);
 
+public:
   // state vector
   Eigen::VectorXd x_;
 

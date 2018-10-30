@@ -3,9 +3,6 @@
 
 #include "measurement_package.h"
 #include "Eigen/Dense"
-#include <vector>
-#include <string>
-#include <fstream>
 #include "kalman_filter.h"
 #include "tools.h"
 
@@ -43,7 +40,6 @@ private:
   Eigen::MatrixXd R_laser_;
   Eigen::MatrixXd R_radar_;
   Eigen::MatrixXd H_laser_;
-  Eigen::MatrixXd Hj_;
 };
 
 #endif /* FusionEKF_H_ */
