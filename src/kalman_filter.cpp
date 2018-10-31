@@ -1,7 +1,5 @@
 #include "kalman_filter.h"
 
-#include <algorithm>
-
 // Please note that the Eigen library does not initialize
 // VectorXd or MatrixXd objects with zeros upon creation.
 
