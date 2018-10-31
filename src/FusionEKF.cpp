@@ -3,9 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-using Eigen::MatrixXd;
-using Eigen::VectorXd;
-
 /**
  * Constructor.
  */

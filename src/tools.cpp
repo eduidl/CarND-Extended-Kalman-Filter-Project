@@ -3,9 +3,6 @@
 #include <cmath>
 #include <iostream>
 
-using Eigen::VectorXd;
-using Eigen::MatrixXd;
-
 Tools::Tools() {}
 
 Tools::~Tools() {}
