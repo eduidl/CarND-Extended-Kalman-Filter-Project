@@ -5,7 +5,7 @@
 class KalmanFilter {
 private:
   /**
-   * Common process used in Update() and UpdateEKF() 
+   * Common process used in Update() and UpdateEKF()
    */
   void CommonUpdate(const Eigen::VectorXd &y, const Eigen::VectorXd &z);
 
@@ -28,6 +28,9 @@ public:
   // measurement covariance matrix
   Eigen::MatrixXd R_;
 
+  // identity matrix
+  Eigen::MatrixXd I_;
+
   /**
    * Constructor
    */
@@ -47,8 +50,9 @@ public:
    * @param R_in Measurement covariance matrix
    * @param Q_in Process covariance matrix
    */
-  void Init(Eigen::VectorXd &x_in, Eigen::MatrixXd &P_in, Eigen::MatrixXd &F_in,
-      Eigen::MatrixXd &H_in, Eigen::MatrixXd &R_in, Eigen::MatrixXd &Q_in);
+  void Init(const Eigen::VectorXd &x_in, const Eigen::MatrixXd &P_in,
+            const Eigen::MatrixXd &F_in, const Eigen::MatrixXd &H_in,
+            const Eigen::MatrixXd &R_in, const    Eigen::MatrixXd &Q_in);
 
   /**
    * Prediction Predicts the state and the state covariance
@@ -68,7 +72,6 @@ public:
    * @param z The measurement at k+1
    */
   void UpdateEKF(const Eigen::VectorXd &z);
-
 };
 
 #endif /* KALMAN_FILTER_H_ */

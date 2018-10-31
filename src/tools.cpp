@@ -13,7 +13,7 @@ Tools::~Tools() {}
 VectorXd Tools::CalculateRMSE(const std::vector<VectorXd> &estimations,
                               const std::vector<VectorXd> &ground_truth) {
   VectorXd rmse(4);
-  rmse << 0,0,0,0;
+  rmse << 0, 0, 0, 0;
 
   if (estimations.size() != ground_truth.size() || estimations.empty()) {
     std::cout << "Invalid estimation or ground_truth data" << std::endl;
@@ -39,15 +39,15 @@ VectorXd Tools::CalculateRMSE(const std::vector<VectorXd> &estimations,
 MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   MatrixXd Hj(3,4);
   //recover state parameters
-  float px = x_state(0);
-  float py = x_state(1);
-  float vx = x_state(2);
-  float vy = x_state(3);
+  const float px = x_state(0);
+  const float py = x_state(1);
+  const float vx = x_state(2);
+  const float vy = x_state(3);
 
   //pre-compute a set of terms to avoid repeated calculation
-  float c1 = std::pow(px, 2) + std::pow(py, 2);
-  float c2 = std::pow(c1, 0.5);
-  float c3 = std::pow(c1, 1.5);
+  const float c1 = std::pow(px, 2) + std::pow(py, 2);
+  const float c2 = std::sqrt(c1);
+  const float c3 = c1 * c2;
 
   //check division by zero
   if (c1 < 0.0001){
@@ -58,7 +58,7 @@ MatrixXd Tools::CalculateJacobian(const VectorXd& x_state) {
   //compute the Jacobian matrix
   Hj << px / c2, py / c2, 0, 0,
         -py / c1, px / c1, 0, 0,
-        py * (vx * py - vy * px) / c3, px * (px * vy - py * vx) / c3,
+        py * (vx * py - vy * px) / c3, px * (px * vy - py * vx) / c3, \
         px / c2, py / c2;
 
   return Hj;

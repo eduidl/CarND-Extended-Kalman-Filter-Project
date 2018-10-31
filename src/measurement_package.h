@@ -7,12 +7,20 @@ class MeasurementPackage {
 public:
   long long timestamp_;
 
-  enum SensorType{
+  enum SensorType {
     LASER,
     RADAR
   } sensor_type_;
 
   Eigen::VectorXd raw_measurements_;
+
+  bool IsLASER() const {
+    return sensor_type_ == LASER;
+  }
+
+  bool IsRADAR() const {
+    return sensor_type_ == RADAR;
+  }
 };
 
 #endif /* MEASUREMENT_PACKAGE_H_ */
