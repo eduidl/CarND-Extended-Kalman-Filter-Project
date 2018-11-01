@@ -44,7 +44,6 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   const float vx = x_(2);
   const float vy = x_(3);
 
-
   const float eps = 0.0001;
   if (px < eps) {
     px += eps;
