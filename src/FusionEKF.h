@@ -1,9 +1,9 @@
 #ifndef FusionEKF_H_
 #define FusionEKF_H_
 
-#include "measurement_package.h"
 #include "Eigen/Dense"
 #include "kalman_filter.h"
+#include "measurement_package.h"
 #include "tools.h"
 
 using Eigen::MatrixXd;
@@ -32,7 +32,8 @@ public:
   KalmanFilter ekf_;
 
 private:
-  // check whether the tracking toolbox was initialized or not (first measurement)
+  // check whether the tracking toolbox was initialized or not (first
+  // measurement)
   bool is_initialized_;
 
   // previous timestamp

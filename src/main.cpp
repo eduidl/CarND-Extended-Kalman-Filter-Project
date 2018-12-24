@@ -1,7 +1,7 @@
-#include <uWS/uWS.h>
-#include "json.hpp"
 #include "FusionEKF.h"
+#include "json.hpp"
 #include "tools.h"
+#include <uWS/uWS.h>
 
 #include <cmath>
 #include <iostream>
@@ -35,12 +35,15 @@ int main() {
   std::vector<VectorXd> estimations;
   std::vector<VectorXd> ground_truth;
 
-  h.onMessage([&fusionEKF,&tools,&estimations,&ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&fusionEKF, &tools, &estimations,
+               &ground_truth](uWS::WebSocket<uWS::SERVER> ws, char *data,
+                              size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
 
-    if (length <= 2 || data[0] != '4' || data[1] != '2') return;
+    if (length <= 2 || data[0] != '4' || data[1] != '2')
+      return;
 
     const auto s = hasData(std::string(data));
     if (s == "") {
@@ -53,7 +56,8 @@ int main() {
 
     const std::string event = j[0].get<std::string>();
 
-    if (event != "telemetry") return;
+    if (event != "telemetry")
+      return;
 
     // j[1] is the data JSON object
 
@@ -92,10 +96,11 @@ int main() {
     // Call ProcessMeasurment(meas_package) for Kalman filter
     fusionEKF.ProcessMeasurement(meas_package);
 
-    // Push the current estimated x,y positon from the Kalman filter's state vector
+    // Push the current estimated x,y positon from the Kalman filter's state
+    // vector
     const double p_x = fusionEKF.ekf_.x_(0);
     const double p_y = fusionEKF.ekf_.x_(1);
-    const double v1  = fusionEKF.ekf_.x_(2);
+    const double v1 = fusionEKF.ekf_.x_(2);
     const double v2 = fusionEKF.ekf_.x_(3);
 
     VectorXd estimate(4);
@@ -108,8 +113,8 @@ int main() {
     json msgJson;
     msgJson["estimate_x"] = p_x;
     msgJson["estimate_y"] = p_y;
-    msgJson["rmse_x"] =  RMSE(0);
-    msgJson["rmse_y"] =  RMSE(1);
+    msgJson["rmse_x"] = RMSE(0);
+    msgJson["rmse_y"] = RMSE(1);
     msgJson["rmse_vx"] = RMSE(2);
     msgJson["rmse_vy"] = RMSE(3);
     const auto msg = "42[\"estimate_marker\"," + msgJson.dump() + "]";
@@ -117,9 +122,11 @@ int main() {
     ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
   });
 
-  // We don't need this since we're not using HTTP but if it's removed the program
+  // We don't need this since we're not using HTTP but if it's removed the
+  // program
   // doesn't compile :-(
-  h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data, size_t, size_t) {
+  h.onHttpRequest([](uWS::HttpResponse *res, uWS::HttpRequest req, char *data,
+                     size_t, size_t) {
     const std::string s = "<h1>Hello world!</h1>";
     if (req.getUrl().valueLength == 1) {
       res->end(s.data(), s.length());
@@ -133,7 +140,8 @@ int main() {
     std::cout << "Connected!!!" << std::endl;
   });
 
-  h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code, char *message, size_t length) {
+  h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER> ws, int code,
+                         char *message, size_t length) {
     ws.close();
     std::cout << "Disconnected" << std::endl;
   });
